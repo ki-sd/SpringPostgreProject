@@ -27,16 +27,33 @@ spring:
 #      ack-mode: record # 메세지 1개 (record) 처리 후 => Offset Commit
 
   datasource:
-      url: jdbc:postgresql://localhost:5432/recipe
+    postgres:
+      jdbc-url: jdbc:postgresql://localhost:5432/recipe
       username: postgres
       password: 1234
       driver-class-name: org.postgresql.Driver
+    oracle:
+      jdbc-url: ${COMMDB_URL}
+      username: hr
+      password: happy
+      driver-class-name: oracle.jdbc.driver.OracleDriver
 
-#  ai:
-#    google:
-#      genai:
-#        api-key: 
-
+  ai:
+    google:
+      genai:
+        project-id: gen-lang-client-0745574278
+        api-key: ${GEN_KEY}
+        location: us-central1
+        embedding:
+          api-key: ${GEN_KEY}
+          project-id: gen-lang-client-0745574278
+          text:
+           options:
+             model: gemini-embedding-001
+             dimensions: 768
+    model:
+      embedding:
+        text: google-genai
   thymeleaf:
     cache: false
     encoding: UTF-8
@@ -45,7 +62,11 @@ spring:
     mode: HTML
 mybatis:
   type-aliases-package: com.sist.web.vo
-#  mapper-locations: mybatis/mapper/*.xml
+  mapper-locations: 
+   - classpath:/mapper/oracle/*.xml
+   - classpath:/mapper/postgres/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
 # logging
 # security
 # spring ai

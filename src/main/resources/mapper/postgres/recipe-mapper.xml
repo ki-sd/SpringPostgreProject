@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+//RCP_NM                    VARCHAR2(200) 
+//RCP_WAY2                  VARCHAR2(100) 
+//RCP_PAT2                  VARCHAR2(100) 
+//INFO_WGT                  VARCHAR2(50)  
+//INFO_ENG                  NUMBER(10,2)  
+//INFO_CAR                  NUMBER(10,2)  
+//INFO_PRO                  NUMBER(10,2)  
+//INFO_FAT                  NUMBER(10,2)  
+//INFO_NA                   NUMBER(10,2)  
+//HASH_TAG                  VARCHAR2(200) 
+//ATT_FILE_NO_MAIN          VARCHAR2(500) 
+//ATT_FILE_NO_MK            VARCHAR2(500) 
+//RCP_PARTS_DTLS            CLOB          
+//RCP_NA_TIP                CLOB          
+//USER_ID                   VARCHAR2(20)  
+//HIT                       NUMBER   
+ -->
+<mapper namespace="com.sist.web.mapper.postgres.PostgresRecipeMapper">
+	<insert id="postgresRecipeInsert" parameterType="com.sist.web.vo.RecipeVO">
+		INSERT INTO recipe (RCP_NM,RCP_WAY2,RCP_PAT2,
+			INFO_WGT,INFO_ENG,INFO_CAR,INFO_PRO,INFO_FAT,INFO_NA,
+			HASH_TAG,ATT_FILE_NO_MAIN,ATT_FILE_NO_MK,RCP_PARTS_DTLS,RCP_NA_TIP,USER_ID,HIT)
+		VALUES(#{rcpNm},#{rcpWay2},#{rcpPat2},
+			#{infoWgt},#{infoEng},#{infoCar},#{infoPro},#{infoFat},#{infoNa},
+			#{hashTag},#{attFileNoMain},#{attFileNoMk},#{rcpPartsDtls},#{rcpNaTip},#{userId},0)
+	</insert>
+	<insert id="recipeVectorInsert" parameterType="com.sist.web.vo.RecipeVectorVO">
+		INSERT INTO recipe_vector(recipe_id,content,embedding)
+		VALUES(#{recipeId},#{content},#{embedding}::vector)
+	</insert>
+	<select id="postgreRecipeAllData" resultType="com.sist.web.vo.RecipeVO">
+		SELECT *
+		FROM recipe
+		ORDER BY rcp_seq
+	</select>
+</mapper>
